@@ -9,11 +9,12 @@ jobs:
     dict_gen:
         runs-on: ubuntu-latest
         outputs:
-            dictionary: ${{ steps.set_matrix.outputs.matrix_key }}
+            dictionary: ${{ steps.set_dict.outputs.full_dict }}
         steps:
             - name: Generate Dictionary
+              id: set_dict
               run: |
-                echo "::set-output name=matrix_key::{\"key1\": \"value1\", \"key2\": \"value2\"}"
+                echo "::set-output name=full_dict::{\"key1\": \"value1\", \"key2\": \"value2\"}"
 
 
     dict_consumer:
