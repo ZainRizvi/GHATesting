@@ -36,4 +36,4 @@ jobs:
             - name: Simple from dynamic json key fake
               run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key3'] || 'default' }}
             - name: Simple from dynamic json fallback
-              run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key_fake'] || fromJson(needs.dict_gen.outputs.dictionary.def) }}
+              run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key_fake'] || fromJson(needs.dict_gen.outputs.dictionary).def }}
