@@ -14,7 +14,7 @@ jobs:
             - name: Generate Dictionary
               id: set_dict
               run: |
-                echo "::set-output name=full_dict::{\"key1\": \"value1\", \"key2\": \"value2\"}"
+                echo "::set-output name=full_dict::{\"key1\": \"value1\", \"key2\": \"value2\", \"def\": \"fallback\"}"
 
 
     dict_consumer:
@@ -35,3 +35,5 @@ jobs:
               run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key2'] }}
             - name: Simple from dynamic json key fake
               run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key3'] || 'default' }}
+            - name: Simple from dynamic json fallback
+              run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key_fake'] || fromJson(needs.dict_gen.outputs.dictionary.def) }}
