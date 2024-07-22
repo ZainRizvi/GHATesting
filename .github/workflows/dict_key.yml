@@ -25,3 +25,9 @@ jobs:
               run: echo ${{ needs.dict_gen.outputs.dictionary }}
             - name: Dict key
               run: echo ${{ needs.dict_gen.outputs.dictionary.key1 }}
+            - name: Dict key name ${{ needs.dict_gen.outputs.dictionary }}
+              run: echo ${{ needs.dict_gen.outputs.dictionary }}
+            - name: Simple from json
+              run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary) }}
+            - name: Simple from json key
+              run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary).key1 }}
