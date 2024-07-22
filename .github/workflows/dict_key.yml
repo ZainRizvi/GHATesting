@@ -15,6 +15,16 @@ jobs:
               id: set_dict
               run: |
                 echo "::set-output name=full_dict::{\"key1\": \"value1\", \"key2\": \"value2\", \"def\": \"fallback\"}"
+    bad_dict_gen:
+        runs-on: ubuntu-latest
+        outputs:
+            dictionary: ${{ steps.set_dict.outputs.bad_dict }}
+        steps:
+            - name: Generate Dictionary
+              id: set_dict
+              # Generates an invalid dict
+              run: |
+                echo "::set-output name=bad_dict::{\"key1\": \"value1\", \"key2"
 
 
     dict_consumer:
@@ -37,3 +47,12 @@ jobs:
               run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key3'] || 'default' }}
             - name: Simple from dynamic json fallback
               run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key_fake'] || fromJson(needs.dict_gen.outputs.dictionary).def }}
+
+    bad_dict_consumer:
+        runs-on: ubuntu-latest
+        needs: bad_dict_gen
+        steps:
+          - name: Use Full Bad
+            run: echo ${{ needs.bad_dict_gen.outputs.dictionary }}
+          - name: Simple from json bad
+            run: echo ${{ fromJson(needs.bad_dict_gen.outputs.dictionary) }}
