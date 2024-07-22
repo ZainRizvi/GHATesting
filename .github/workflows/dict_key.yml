@@ -1,0 +1,26 @@
+# Goal is to see if we can have one job output a dictionary that another job can use the value of a particular key from that dictionary
+name: Dictionary Key
+
+on:
+    workflow_dispatch:
+    push:
+
+jobs:
+    dict_gen:
+        runs-on: ubuntu-latest
+        outputs:
+            dictionary: ${{ steps.set_matrix.outputs.matrix_key }}
+        steps:
+            - name: Generate Dictionary
+              run: |
+                echo "::set-output name=matrix_key::{\"key1\": \"value1\", \"key2\": \"value2\"}"
+
+
+    dict_consumer:
+        runs-on: ubuntu-latest
+        needs: dict_gen
+        steps:
+            - name: Use Full
+              run: echo ${{ needs.dict_gen.outputs.dictionary }}
+            - name: Dict key
+              run: echo ${{ needs.dict_gen.outputs.dictionary.key1 }}
