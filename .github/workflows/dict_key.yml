@@ -33,3 +33,5 @@ jobs:
               run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary).key1 }}
             - name: Simple from dynamic json key2
               run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key2'] }}
+            - name: Simple from dynamic json key fake
+              run: echo ${{ fromJson(needs.dict_gen.outputs.dictionary)['key3'] || 'default' }}
